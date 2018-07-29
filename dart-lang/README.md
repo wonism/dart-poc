@@ -236,7 +236,9 @@ void main() {
 
 ### 클로저
 간단하게 말하면
+
 > 클로저는 다른 함수의 스코프 안에 있는 변수들에 접근할 수 있는 함수
+
 라고 할 수 있다.<br />
 위에서 사용된 `addTwo`도 `add`의 `a`를 기억하는 클로저이다.
 
@@ -271,3 +273,77 @@ button.onClick.listen((e) => window.alert('Confirmed!'));
 ### 조건적 멤버 엑세스
 표현식은 `?.`이며, `foo?.bar`와 같이 사용한다.<br />
 `Ruby`의 `try` 혹은 `&.`와 유사하다.
+
+## 클래스
+다트는 클래스 및 믹스인 기반의 상속을 하는 객체 지향 언어이다. 모든 객체는 클래스의 인스턴스이며, 모든 클래스는 `Object`로부터 전해진다.
+믹스인 기반 상속은 모든 클래스(`Object` 클래스는 제외)가 하나의 상위 클래스를 갖지만, 클래스는 여러 클래스 계증에서 다시 사용될 수 있음을 뜻한다.
+
+### 생성자
+You can create an object using a constructor. Constructor names can be either ClassName or ClassName.identifier. For example, the following code creates Point objects using the Point() and Point.fromJson() constructors:
+
+생성자를 사용하여 객체를 만들 수 있습니다. 생성자 이름은 ClassName 또는 ClassName.identifier가 될 수 있습니다. 예를 들어 다음 코드는 Point () 및 Point.fromJson () 생성자를 사용하여 Point 객체를 만듭니다.
+
+생성자를 통해 객체를 만들 수 있다. 생성자 이름은 `ClassName` 혹은 `ClassName.identifier`가 될 수 있있다.
+```dart
+// example
+class Point {
+  num x;
+  num y;
+
+  Point(num x, num y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  // or
+  /*
+  Point(this.x, this.y);
+  */
+
+  Point.fromJson(Map<String, num> data) {
+    this.x = data['x'];
+    this.y = data['y'];
+  }
+}
+
+void main() {
+  var p1 = Point(4, 3);
+  print(point.x); // 4
+  var p = Point.fromJson({ 'x': 5, 'y': 10 });
+  print(p.y); // 10
+}
+```
+
+### 불변 클래스
+생성자에 `const`를 써줌으로써 클래스가 불변의 객체를 생성하도록 (컴파일 타임 상수 객체가 되도록)할 수 있다.
+
+```dart
+class ImmutablePoint {
+  final num x, y;
+
+  const ImmutablePoint(this.x, this.y);
+}
+```
+
+### Getter & Setter
+```dart
+// code from dart docs (https://www.dartlang.org/guides/language/language-tour#getters-and-setters)
+class Rectangle {
+  num left, top, width, height;
+
+  Rectangle(this.left, this.top, this.width, this.height);
+
+  // Define two calculated properties: right and bottom.
+  num get right => left + width;
+  set right(num value) => left = value - width;
+  num get bottom => top + height;
+  set bottom(num value) => top = value - height;
+}
+
+void main() {
+  var rect = Rectangle(3, 4, 20, 15);
+  assert(rect.left == 3);
+  rect.right = 12;
+  assert(rect.left == -8);
+}
+```
